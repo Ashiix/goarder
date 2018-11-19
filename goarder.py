@@ -19,7 +19,7 @@ while True:
         crusaderHP = 50
         firstAct = False
 
-    actionChosen = input("\nWould you like to... explore (1), heal (2), open inventory (3), check paladin stats (4) [WIP], or exit the game (5).\nAction>>> ")
+    actionChosen = input("\nWould you like to... explore (1), heal (2), open inventory (3), check paladin stats (4), or exit the game (5).\nAction>>> ")
 
     if actionChosen == '1':
         combat()

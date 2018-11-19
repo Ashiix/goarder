@@ -84,7 +84,7 @@ def combat():
             elif paladinCritRoll <= paladinCritChance:
 
                 enemyHP = enemyHP-paladinAttack*paladinCritMulti-stats.strength/2
-                print("CRITICAL HIT! You crit the enemy for",str(paladinAttack*paladinCritMulti+stat.strength/2)+"HP. The enemy has",enemyHP,"HP left.")
+                print("CRITICAL HIT! You crit the enemy for",str(paladinAttack*paladinCritMulti+stats.strength/2)+"HP. The enemy has",enemyHP,"HP left.")
 
             if enemyHP <= 0:
 
