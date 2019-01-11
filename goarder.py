@@ -6,18 +6,9 @@
 from goarderEngines import *
 import sys
 
-firstAct = True
-
 print("\nHello, paladin. Welcome to Goarder alpha!\n")
 
 while True:
-
-    global crusaderHP
-    global goldCount
-    if firstAct == True:
-        goldCount = 0
-        crusaderHP = 50
-        firstAct = False
 
     actionChosen = input("\nWould you like to... explore (1), heal (2), open inventory (3), check paladin stats (4), or exit the game (5).\nAction>>> ")
 
