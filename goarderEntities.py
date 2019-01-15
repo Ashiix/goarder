@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 # goarderItems v1.0
-# by nitel
+# by Ashiix
 
-class items:
+class entities:
     def __init__ (self):
         # ITEMS
 

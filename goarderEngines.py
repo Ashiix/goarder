@@ -1,13 +1,26 @@
 #!/usr/bin/env python3
 
 # goarderEngines v1.0
-# by nitel
+# by Ashiix
 
-from goarderItems import *
-inventory = items()
+from goarderEntities import *
+entities = entities()
+import random as rng
+import sys
+import time
+
+enemies = ["Manic Dog","Goblin Chief","Goblin Minion","Baby Dragon","Giant Slime"]
+
+dogStats = {"HP Min":2,"HP Max":5,"Attack Min":1,"Attack Max":4,"Crit Chance":5,"Crit Multi":4,"Recovery":3,"Weapon":"Teeth","Gold Dropped":10, "XP Gain":1}
+gchiefStats = {"HP Min":10,"HP Max":15,"Attack Min":8,"Attack Max":12,"Crit Chance":10,"Crit Multi":3,"Recovery":4,"Weapon":"Spear of the Goblin Chief","Gold Dropped":100, "XP Gain":5}
+gminionStats = {"HP Min":5,"HP Max":8,"Attack Min":3,"Attack Max":5,"Crit Chance":7,"Crit Multi":4,"Recovery":3,"Weapon":"Goblin Spear","Gold Dropped":30, "XP Gain":3}
+bdragonStats = {"HP Min":8,"HP Max":12,"Attack Min":12,"Attack Max":15,"Crit Chance":12,"Crit Multi":4,"Recovery":4,"Weapon":"Fire Breath","Gold Dropped":150, "XP Gain":10}
+gslimeStats = {"HP Min":50,"HP Max":75,"Attack Min":0,"Attack Max":2,"Crit Chance":5,"Crit Multi":8,"Recovery":1,"Weapon":"Slime Slam","Gold Dropped":30, "XP Gain":15}
 
 class stats:
     def __init__(self):
+        self.name = "Paladin"
+        self.gender = 'F'
         self.goldCount = 0
         self.XPtotal = 0
         self.XPpoints = 0
@@ -19,33 +32,22 @@ class stats:
 
 class equipped:
     def __init__(self):
-        self.helm = inventory.paladinHelm
-        self.tunic = inventory.paladinTunic
-        self.gauntlets = inventory.paladinGauntlets
-        self.boots = inventory.paladinBoots
-        self.weapon = inventory.paladinBroadsword
-        self.shield = inventory.paladinShield
+        self.helm = entities.paladinHelm
+        self.tunic = entities.paladinTunic
+        self.gauntlets = entities.paladinGauntlets
+        self.boots = entities.paladinBoots
+        self.weapon = entities.paladinBroadsword
+        self.shield = entities.paladinShield
 
 stats = stats()
 equipped = equipped()
 
 def combat():
 
-    import random as rng
-    import sys
-
     paladinCritChance = 2 + stats.strength/2
     paladinCritMulti = 2 + stats.strength/2
     paladinRecovery = 1 + stats.recovery/2
     paladinDodgeChance = 12 + stats.agi/2
-
-    enemies = ["Manic Dog","Goblin Chief","Goblin Minion","Baby Dragon","Giant Slime"]
-
-    dogStats = {"HP Min":2,"HP Max":5,"Attack Min":1,"Attack Max":4,"Crit Chance":5,"Crit Multi":4,"Recovery":3,"Weapon":"Teeth","Gold Dropped":10, "XP Gain":1}
-    gchiefStats = {"HP Min":10,"HP Max":15,"Attack Min":8,"Attack Max":12,"Crit Chance":10,"Crit Multi":3,"Recovery":4,"Weapon":"Spear of the Goblin Chief","Gold Dropped":100, "XP Gain":5}
-    gminionStats = {"HP Min":5,"HP Max":8,"Attack Min":3,"Attack Max":5,"Crit Chance":7,"Crit Multi":4,"Recovery":3,"Weapon":"Goblin Spear","Gold Dropped":30, "XP Gain":3}
-    bdragonStats = {"HP Min":8,"HP Max":12,"Attack Min":12,"Attack Max":15,"Crit Chance":12,"Crit Multi":4,"Recovery":4,"Weapon":"Fire Breath","Gold Dropped":150, "XP Gain":10}
-    gslimeStats = {"HP Min":50,"HP Max":75,"Attack Min":0,"Attack Max":2,"Crit Chance":5,"Crit Multi":8,"Recovery":1,"Weapon":"Slime Slam","Gold Dropped":30, "XP Gain":15}
 
     enemyDefeated = False
     userRun = False
@@ -147,64 +149,74 @@ def combat():
             print("You died with",stats.goldCount,"G.")
             sys.exit("Relaunch the program to play again!\n")
 
+
 def rest():
 
-    import time
     print("\nYou decide to rest at the campfire, this will take a bit.")
-    time.sleep(15)
+    for i in range(8):
+        print("   -",end="\r")
+        time.sleep(0.4)
+        print("   \\",end="\r")
+        time.sleep(0.4)
+        print("   /",end="\r")
+        time.sleep(0.4)
     stats.paladinHP = stats.paladinHPMax
     print("\nYou are now at full health! HP="+str(stats.paladinHP)+".")
 
-def inventory():
 
-    from goarderItems import items
-    inventory = items()
+def shop():
+
+    print("\nWelcome to the shop!")
+
+    while True:
+        shopChoice = input("Would you like to... buy an item (1), view our selection (2), leave the shop (3).\nShop>>> ")
+
+        if shopChoice == '1':
+            shopItemChoice = input("What item item would you like to buy. (Please use item ID which can be found before the item in the shop list.)\nID>>> ")
+
+            if shopItemChoice == '7':
+
+                if stats.goldCount >= entities.twinDaggers["Price"]:
+
+                    stats.goldCount = stats.goldCount - entities.twinDaggers["Price"]
+                    equipped.weapon = entities.twinDaggers
+                    print("Purchase complete! Gold -"+str(entities.twinDaggers["Price"])+". Your brand new", entities.twinDaggers["Name"], "have been equipped.")
+
+                else:
+                    print("Sorry, you do not have the adequite gold amount, you need", entities.twinDaggers["Price"]-stats.goldCount, "more gold.")
+            else:
+                print("The item that corresponds with that item ID is not purchasable, or the item doesn't exist.\n")
+
+        elif shopChoice == '2':
+            print(str(entities.twinDaggers["ID"]) + ".", entities.twinDaggers["Name"], "-", entities.twinDaggers["Price"], "gold.")
+
+        elif shopChoice == '3':
+            break
+
+        elif shopChoice == '08godsword25':
+            print("\nNite's Sword Equipped\n")
+            equipped.weapon = entities.niteSword
+
+        else:
+            print("That is not a valid choice. Please re-enter.")
+
+
+def inventory():
 
     print("\n\nCurrently equipped:", "\n", equipped.helm["Name"], "\n", equipped.tunic["Name"], "\n", equipped.gauntlets["Name"], "\n", equipped.boots["Name"], "\n", equipped.weapon["Name"], "\n", equipped.shield["Name"])
 
     while True:
-        invChoice = input("\n\nWould you like to... view shop (1), exit (2)\nInventory>>> ")
+        invChoice = input("\nWould you like to... view shop (1), exit (2)\nInventory>>> ")
 
         if invChoice == '1':
-            print("\nWelcome to the shop!")
-
-            while True:
-                shopChoice = input("Would you like to... buy an item (1), view our selection (2), leave the shop (3).\nShop>>> ")
-
-                if shopChoice == '1':
-                    shopItemChoice = input("What item item would you like to buy. (Please use item ID which can be found before the item in the shop list.)\nID>>> ")
-
-                    if shopItemChoice == '7':
-
-                        if stats.goldCount >= inventory.twinDaggers["Price"]:
-
-                            stats.goldCount = stats.goldCount - inventory.twinDaggers["Price"]
-                            equipped.weapon = inventory.twinDaggers
-                            print("Purchase complete! Gold -"+str(inventory.twinDaggers["Price"])+". Your brand new", inventory.twinDaggers["Name"], "have been equipped.")
-
-                        else:
-                            print("Sorry, you do not have the adequite gold amount, you need", inventory.twinDaggers["Price"]-stats.goldCount, "more gold.")
-                    else:
-                        print("The item that corresponds with that item ID is not purchasable, or the item doesn't exist.")
-
-                elif shopChoice == '2':
-                    print(str(inventory.twinDaggers["ID"]) + ".", inventory.twinDaggers["Name"], "-", inventory.twinDaggers["Price"], "gold.")
-
-                elif shopChoice == '3':
-                    break
-
-                elif shopChoice == '08godsword25':
-                    print("\nNite's Sword Equipped\n")
-                    equipped.weapon = inventory.niteSword
-
-                else:
-                    print("That is not a valid choice. Please re-enter.")
+            shop()
 
         elif invChoice == '2':
             break
 
         else:
             print("That is not a valid choice. Please re-enter.")
+
 
 def statMenu():
 
