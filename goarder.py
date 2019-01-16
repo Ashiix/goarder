@@ -4,6 +4,7 @@
 # by Ashiix
 
 from goarderEngines import *
+stats = stats()
 import sys
 
 print("\n                                            ___ ")
@@ -55,8 +56,10 @@ while True:
     elif actionChosen == '4':
         statMenu()
     elif actionChosen == '5':
-        story()
+        print("\nStory is a WIP")
+        # story()
     elif actionChosen == '6':
-        sys.exit("Goodbye!")
+        print("You are leaving with",str(stats.goldCount)+", and",str(stats.XPtotal),"XP.")
+        sys.exit("Goodbye!\n")
     else:
         print("That is not a valid choice. Please re-enter.")

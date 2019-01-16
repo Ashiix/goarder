@@ -139,7 +139,7 @@ def combat():
 
                 elif enemyCritRoll <= enemyStats["Crit Chance"]:
                     stats.paladinHP = stats.paladinHP-enemyAttack*enemyStats["Crit Multi"]
-                    print("CRITICAL HIT! The",enemy,"critted you for",str(enemyAttack*enemyStats["Crit Multi"]),"HP while you were trying to escape! You now have",paladinHP,"health left.")
+                    print("CRITICAL HIT! The",enemy,"critted you for",str(enemyAttack*enemyStats["Crit Multi"]),"HP while you were trying to escape! You now have",stats.paladinHP,"health left.")
 
                 elif paladinDodgeRoll > paladinDodgeChance:
                     print("You dodged the enemy's attack! No damage was done.")
@@ -161,7 +161,7 @@ def rest():
         print("   /",end="\r")
         time.sleep(0.4)
     stats.paladinHP = stats.paladinHPMax
-    print("\nYou are now at full health! HP="+str(stats.paladinHP)+".")
+    print("You are now at full health! HP="+str(stats.paladinHP)+".\n",end="\r")
 
 
 def shop():
@@ -203,7 +203,7 @@ def shop():
 
 def inventory():
 
-    print("\n\nCurrently equipped:", "\n", equipped.helm["Name"], "\n", equipped.tunic["Name"], "\n", equipped.gauntlets["Name"], "\n", equipped.boots["Name"], "\n", equipped.weapon["Name"], "\n", equipped.shield["Name"])
+    print("\nCurrently equipped:", "\n", equipped.helm["Name"], "\n", equipped.tunic["Name"], "\n", equipped.gauntlets["Name"], "\n", equipped.boots["Name"], "\n", equipped.weapon["Name"], "\n", equipped.shield["Name"])
 
     while True:
         invChoice = input("\nWould you like to... view shop (1), exit (2)\nInventory>>> ")
