@@ -8,7 +8,6 @@ entities = entities()
 import random as rng
 import sys
 import time
-
 enemies = ["Manic Dog","Goblin Chief","Goblin Minion","Baby Dragon","Giant Slime"]
 
 dogStats = {"HP Min":2,"HP Max":5,"Attack Min":1,"Attack Max":4,"Crit Chance":5,"Crit Multi":4,"Recovery":3,"Weapon":"Teeth","Gold Dropped":10, "XP Gain":1}
@@ -16,6 +15,7 @@ gchiefStats = {"HP Min":10,"HP Max":15,"Attack Min":8,"Attack Max":12,"Crit Chan
 gminionStats = {"HP Min":5,"HP Max":8,"Attack Min":3,"Attack Max":5,"Crit Chance":7,"Crit Multi":4,"Recovery":3,"Weapon":"Goblin Spear","Gold Dropped":30, "XP Gain":3}
 bdragonStats = {"HP Min":8,"HP Max":12,"Attack Min":12,"Attack Max":15,"Crit Chance":12,"Crit Multi":4,"Recovery":4,"Weapon":"Fire Breath","Gold Dropped":150, "XP Gain":10}
 gslimeStats = {"HP Min":50,"HP Max":75,"Attack Min":0,"Attack Max":2,"Crit Chance":5,"Crit Multi":8,"Recovery":1,"Weapon":"Slime Slam","Gold Dropped":30, "XP Gain":15}
+
 
 class stats:
     def __init__(self):
@@ -32,12 +32,12 @@ class stats:
 
 class equipped:
     def __init__(self):
-        self.helm = entities.paladinHelm
-        self.tunic = entities.paladinTunic
-        self.gauntlets = entities.paladinGauntlets
-        self.boots = entities.paladinBoots
-        self.weapon = entities.paladinBroadsword
-        self.shield = entities.paladinShield
+        self.helm = entities.itemsByID[3]
+        self.tunic = entities.itemsByID[4]
+        self.gauntlets = entities.itemsByID[5]
+        self.boots = entities.itemsByID[6]
+        self.weapon = entities.itemsByID[1]
+        self.shield = entities.itemsByID[2]
 
 stats = stats()
 equipped = equipped()
@@ -52,7 +52,7 @@ def combat():
     enemyDefeated = False
     userRun = False
     randEnemy = rng.randint(0,4)
-    enemy=enemies[randEnemy]
+    enemy = enemies[randEnemy]
 
     if enemy == "Manic Dog":
         enemyStats = dogStats
@@ -63,7 +63,7 @@ def combat():
     elif enemy == "Baby Dragon":
          enemyStats = bdragonStats
     elif enemy == "Giant Slime":
-         enemyStats=gslimeStats
+         enemyStats = gslimeStats
 
     enemyHP = rng.randint(enemyStats["HP Min"],enemyStats["HP Max"])
     print("\nYou have encountered a",enemy+"! HP="+str(enemyHP))
@@ -182,40 +182,31 @@ def shop():
                     equipped.weapon = entities.twinDaggers
                     print("Purchase complete! Gold -"+str(entities.twinDaggers["Price"])+". Your brand new", entities.twinDaggers["Name"], "have been equipped.")
 
-                else:
-                    print("Sorry, you do not have the adequite gold amount, you need", entities.twinDaggers["Price"]-stats.goldCount, "more gold.")
-            else:
-                print("The item that corresponds with that item ID is not purchasable, or the item doesn't exist.\n")
+                else: print("Sorry, you do not have the adequite gold amount, you need", entities.twinDaggers["Price"]-stats.goldCount, "more gold.")
 
-        elif shopChoice == '2':
-            print(str(entities.twinDaggers["ID"]) + ".", entities.twinDaggers["Name"], "-", entities.twinDaggers["Price"], "gold.")
+            else: print("The item that corresponds with that item ID is not purchasable, or the item doesn't exist.\n")
 
-        elif shopChoice == '3':
-            break
+        elif shopChoice == '2': print(str(entities.twinDaggers["ID"]) + ".", entities.twinDaggers["Name"], "-", entities.twinDaggers["Price"], "gold.")
+
+        elif shopChoice == '3': break
 
         elif shopChoice == '08godsword25':
             print("\nNite's Sword Equipped\n")
             equipped.weapon = entities.niteSword
 
-        else:
-            print("That is not a valid choice. Please re-enter.")
+        else: print("That is not a valid choice. Please re-enter.")
 
 
 def inventory():
 
-    print("\nCurrently equipped:", "\n", equipped.helm["Name"], "\n", equipped.tunic["Name"], "\n", equipped.gauntlets["Name"], "\n", equipped.boots["Name"], "\n", equipped.weapon["Name"], "\n", equipped.shield["Name"])
+    print("\nCurrently equipped:\n", equipped.helm["Name"], "\n", equipped.tunic["Name"], "\n", equipped.gauntlets["Name"], "\n", equipped.boots["Name"], "\n", equipped.weapon["Name"], "\n", equipped.shield["Name"])
 
     while True:
         invChoice = input("\nWould you like to... view shop (1), exit (2)\nInventory>>> ")
 
-        if invChoice == '1':
-            shop()
-
-        elif invChoice == '2':
-            break
-
-        else:
-            print("That is not a valid choice. Please re-enter.")
+        if invChoice == '1': shop()
+        elif invChoice == '2': break
+        else: print("That is not a valid choice. Please re-enter.")
 
 
 def statMenu():
@@ -256,8 +247,46 @@ def statMenu():
                     stats.agi += 1
                     stats.XPpoints -= 1
 
-        elif statSel == 'n':
-            pass
+        elif statSel == 'n': pass
 
-        else:
-            print("That is not a valid option.")
+        else: print("That is not a valid option.")
+
+def save():
+    save = open("Save.txt", 'w')
+    save.write(stats.name + '\n' + stats.gender + '\n' + str(stats.goldCount) + '\n' + str(stats.XPtotal) + '\n' + str(stats.XPpoints) + '\n' + str(stats.paladinHP) + '\n' + str(stats.paladinHPMax) + '\n' + str(stats.strength) + '\n' + str(stats.recovery) + '\n' + str(stats.agi) + '\n')
+    save.write(str(equipped.helm["ID"]) + '\n' + str(equipped.tunic["ID"]) + '\n' + str(equipped.gauntlets["ID"]) + '\n' + str(equipped.boots["ID"]) + '\n' + str(equipped.weapon["ID"]) + '\n' + str(equipped.shield["ID"]))
+    save.close
+
+def readSave():
+    try:
+        save = open("Save.txt", 'r')
+        toContinue = str(input("Would you like to continue your previous game? y/n \n"))
+        if(toContinue == 'y'):
+            newGame = False
+            stats.name = save.readline().rstrip('\n')
+            stats.gender = save.readline().rstrip('\n')
+            stats.goldCount = int(save.readline().rstrip('\n'))
+            stats.XPtotal = int(save.readline().rstrip('\n'))
+            stats.XPpoints = int(save.readline().rstrip('\n'))
+            stats.paladinHP = int(save.readline().rstrip('\n'))
+            stats.paladinHPMax = int(save.readline().rstrip('\n'))
+            stats.strength = int(save.readline().rstrip('\n'))
+            stats.recovery = int(save.readline().rstrip('\n'))
+            stats.agi = int(save.readline().rstrip('\n'))
+            loadHelm = int(save.readline().rstrip('\n'))
+            loadTunic = int(save.readline().rstrip('\n'))
+            loadGauntlets = int(save.readline().rstrip('\n'))
+            loadBoots = int(save.readline().rstrip('\n'))
+            loadWeapon = int(save.readline().rstrip('\n'))
+            loadShield = int(save.readline().rstrip('\n'))
+            equipped.helm = entities.itemsByID[loadHelm]
+            equipped.tunic = entities.itemsByID[loadTunic]
+            equipped.gauntlets = entities.itemsByID[loadGauntlets]
+            equipped.boots = entities.itemsByID[loadBoots]
+            equipped.weapon = entities.itemsByID[loadWeapon]
+            equipped.shield = entities.itemsByID[loadShield]
+        else: newGame = True
+        save.close()
+    except:
+        newGame = True
+    return newGame

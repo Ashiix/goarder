@@ -30,3 +30,5 @@ class entities:
 
         # Boots
         self.paladinBoots = {"Name":"Paladin's Boots", "ID":6, "Recovery":1, "Agi Pen":2, "Description":"The boots of the legendary Paladins. You were given this after you completed your training."}
+
+        self.itemsByID = {0:self.niteSword, 1:self.paladinBroadsword, 2:self.paladinShield, 3:self.paladinHelm, 4:self.paladinTunic, 5:self.paladinGauntlets, 6:self.paladinBoots, 7:self.twinDaggers, 8:self.cencorianShield, 9:self.cencorianHelm, 10:self.cencorinTunic}
