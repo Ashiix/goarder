@@ -4,18 +4,11 @@
 # by Ashiix
 
 from goarderEntities import *
-entities = entities()
 import random as rng
 import sys
 import time
-enemies = ["Manic Dog","Goblin Chief","Goblin Minion","Baby Dragon","Giant Slime"]
-
-dogStats = {"HP Min":2,"HP Max":5,"Attack Min":1,"Attack Max":4,"Crit Chance":5,"Crit Multi":4,"Recovery":3,"Weapon":"Teeth","Gold Dropped":10, "XP Gain":1}
-gchiefStats = {"HP Min":10,"HP Max":15,"Attack Min":8,"Attack Max":12,"Crit Chance":10,"Crit Multi":3,"Recovery":4,"Weapon":"Spear of the Goblin Chief","Gold Dropped":100, "XP Gain":5}
-gminionStats = {"HP Min":5,"HP Max":8,"Attack Min":3,"Attack Max":5,"Crit Chance":7,"Crit Multi":4,"Recovery":3,"Weapon":"Goblin Spear","Gold Dropped":30, "XP Gain":3}
-bdragonStats = {"HP Min":8,"HP Max":12,"Attack Min":12,"Attack Max":15,"Crit Chance":12,"Crit Multi":4,"Recovery":4,"Weapon":"Fire Breath","Gold Dropped":150, "XP Gain":10}
-gslimeStats = {"HP Min":50,"HP Max":75,"Attack Min":0,"Attack Max":2,"Crit Chance":5,"Crit Multi":8,"Recovery":1,"Weapon":"Slime Slam","Gold Dropped":30, "XP Gain":15}
-
+items = items()
+enemies = enemies()
 
 class stats:
     def __init__(self):
@@ -32,38 +25,38 @@ class stats:
 
 class equipped:
     def __init__(self):
-        self.helm = entities.itemsByID[3]
-        self.tunic = entities.itemsByID[4]
-        self.gauntlets = entities.itemsByID[5]
-        self.boots = entities.itemsByID[6]
-        self.weapon = entities.itemsByID[1]
-        self.shield = entities.itemsByID[2]
+        self.helm = items.itemsByID[3]
+        self.tunic = items.itemsByID[4]
+        self.gauntlets = items.itemsByID[5]
+        self.boots = items.itemsByID[6]
+        self.weapon = items.itemsByID[1]
+        self.shield = items.itemsByID[2]
 
 stats = stats()
 equipped = equipped()
 
 def combat():
 
-    paladinCritChance = 2 + stats.strength/2
-    paladinCritMulti = 2 + stats.strength/2
-    paladinRecovery = 1 + stats.recovery/2
-    paladinDodgeChance = 12 + stats.agi/2
+    paladinCritChance = 2 + stats.strength
+    paladinCritMulti = 2 + stats.strength/4
+    paladinRecovery = 1 + stats.recovery/1.5
+    paladinDodgeChance = 12 + stats.agi
 
     enemyDefeated = False
     userRun = False
     randEnemy = rng.randint(0,4)
-    enemy = enemies[randEnemy]
+    enemy = enemies.all[randEnemy]
 
     if enemy == "Manic Dog":
-        enemyStats = dogStats
+        enemyStats = enemies.manicDog
     elif enemy == "Goblin Chief":
-        enemyStats = gchiefStats
+        enemyStats = enemies.goblinChief
     elif enemy == "Goblin Minion":
-        enemyStats = gminionStats
+        enemyStats = enemies.goblinMinion
     elif enemy == "Baby Dragon":
-         enemyStats = bdragonStats
+         enemyStats = enemies.babyDragon
     elif enemy == "Giant Slime":
-         enemyStats = gslimeStats
+         enemyStats = enemies.giantSlime
 
     enemyHP = rng.randint(enemyStats["HP Min"],enemyStats["HP Max"])
     print("\nYou have encountered a",enemy+"! HP="+str(enemyHP))
@@ -120,7 +113,6 @@ def combat():
                 print("CRITICAL HIT! The enemy crits you for",str(enemyAttack*enemyStats["Crit Multi"]),"damage, bypassing your recovery. You now have",str(stats.paladinHP),"HP left.")
 
         else:
-
             runChance = rng.randint(1,100)
 
             if runChance >= 80:
@@ -149,7 +141,6 @@ def combat():
             print("You died with",stats.goldCount,"G.")
             sys.exit("Relaunch the program to play again!\n")
 
-
 def rest():
 
     print("\nYou decide to rest at the campfire, this will take a bit.")
@@ -176,23 +167,23 @@ def shop():
 
             if shopItemChoice == '7':
 
-                if stats.goldCount >= entities.twinDaggers["Price"]:
+                if stats.goldCount >= items.twinDaggers["Price"]:
 
-                    stats.goldCount = stats.goldCount - entities.twinDaggers["Price"]
-                    equipped.weapon = entities.twinDaggers
-                    print("Purchase complete! Gold -"+str(entities.twinDaggers["Price"])+". Your brand new", entities.twinDaggers["Name"], "have been equipped.")
+                    stats.goldCount = stats.goldCount - items.twinDaggers["Price"]
+                    equipped.weapon = items.twinDaggers
+                    print("Purchase complete! Gold -"+str(items.twinDaggers["Price"])+". Your brand new", items.twinDaggers["Name"], "have been equipped.")
 
-                else: print("Sorry, you do not have the adequite gold amount, you need", entities.twinDaggers["Price"]-stats.goldCount, "more gold.")
+                else: print("Sorry, you do not have the adequite gold amount, you need", items.twinDaggers["Price"]-stats.goldCount, "more gold.")
 
             else: print("The item that corresponds with that item ID is not purchasable, or the item doesn't exist.\n")
 
-        elif shopChoice == '2': print(str(entities.twinDaggers["ID"]) + ".", entities.twinDaggers["Name"], "-", entities.twinDaggers["Price"], "gold.")
+        elif shopChoice == '2': print(str(items.twinDaggers["ID"]) + ".", items.twinDaggers["Name"], "-", items.twinDaggers["Price"], "gold.")
 
         elif shopChoice == '3': break
 
         elif shopChoice == '08godsword25':
             print("\nNite's Sword Equipped\n")
-            equipped.weapon = entities.niteSword
+            equipped.weapon = items.niteSword
 
         else: print("That is not a valid choice. Please re-enter.")
 
@@ -252,14 +243,14 @@ def statMenu():
         else: print("That is not a valid option.")
 
 def save():
-    save = open("Save.txt", 'w')
+    save = open(".save", 'w')
     save.write(stats.name + '\n' + stats.gender + '\n' + str(stats.goldCount) + '\n' + str(stats.XPtotal) + '\n' + str(stats.XPpoints) + '\n' + str(stats.paladinHP) + '\n' + str(stats.paladinHPMax) + '\n' + str(stats.strength) + '\n' + str(stats.recovery) + '\n' + str(stats.agi) + '\n')
     save.write(str(equipped.helm["ID"]) + '\n' + str(equipped.tunic["ID"]) + '\n' + str(equipped.gauntlets["ID"]) + '\n' + str(equipped.boots["ID"]) + '\n' + str(equipped.weapon["ID"]) + '\n' + str(equipped.shield["ID"]))
     save.close
 
 def readSave():
     try:
-        save = open("Save.txt", 'r')
+        save = open(".save", 'r')
         toContinue = str(input("Would you like to continue your previous game? y/n \n"))
         if(toContinue == 'y'):
             newGame = False
@@ -279,13 +270,14 @@ def readSave():
             loadBoots = int(save.readline().rstrip('\n'))
             loadWeapon = int(save.readline().rstrip('\n'))
             loadShield = int(save.readline().rstrip('\n'))
-            equipped.helm = entities.itemsByID[loadHelm]
-            equipped.tunic = entities.itemsByID[loadTunic]
-            equipped.gauntlets = entities.itemsByID[loadGauntlets]
-            equipped.boots = entities.itemsByID[loadBoots]
-            equipped.weapon = entities.itemsByID[loadWeapon]
-            equipped.shield = entities.itemsByID[loadShield]
-        else: newGame = True
+            equipped.helm = items.itemsByID[loadHelm]
+            equipped.tunic = items.itemsByID[loadTunic]
+            equipped.gauntlets = items.itemsByID[loadGauntlets]
+            equipped.boots = items.itemsByID[loadBoots]
+            equipped.weapon = items.itemsByID[loadWeapon]
+            equipped.shield = items.itemsByID[loadShield]
+        else:
+            newGame = True
         save.close()
     except:
         newGame = True

@@ -3,7 +3,7 @@
 # goarderItems v1.0
 # by Ashiix
 
-class entities:
+class items:
     def __init__ (self):
         # ITEMS
 
@@ -32,3 +32,13 @@ class entities:
         self.paladinBoots = {"Name":"Paladin's Boots", "ID":6, "Recovery":1, "Agi Pen":2, "Description":"The boots of the legendary Paladins. You were given this after you completed your training."}
 
         self.itemsByID = {0:self.niteSword, 1:self.paladinBroadsword, 2:self.paladinShield, 3:self.paladinHelm, 4:self.paladinTunic, 5:self.paladinGauntlets, 6:self.paladinBoots, 7:self.twinDaggers, 8:self.cencorianShield, 9:self.cencorianHelm, 10:self.cencorinTunic}
+
+class enemies:
+    def __init__(self):
+        self.manicDog = {"HP Min":2,"HP Max":5,"Attack Min":1,"Attack Max":4,"Crit Chance":5,"Crit Multi":4,"Recovery":3,"Weapon":"Teeth","Gold Dropped":10, "XP Gain":1}
+        self.goblinChief = {"HP Min":10,"HP Max":15,"Attack Min":8,"Attack Max":12,"Crit Chance":10,"Crit Multi":3,"Recovery":4,"Weapon":"Spear of the Goblin Chief","Gold Dropped":100, "XP Gain":5}
+        self.goblinMinion = {"HP Min":5,"HP Max":8,"Attack Min":3,"Attack Max":5,"Crit Chance":7,"Crit Multi":4,"Recovery":3,"Weapon":"Goblin Spear","Gold Dropped":30, "XP Gain":3}
+        self.babyDragon = {"HP Min":8,"HP Max":12,"Attack Min":12,"Attack Max":15,"Crit Chance":12,"Crit Multi":4,"Recovery":4,"Weapon":"Fire Breath","Gold Dropped":150, "XP Gain":10}
+        self.giantSlime = {"HP Min":50,"HP Max":75,"Attack Min":0,"Attack Max":2,"Crit Chance":5,"Crit Multi":8,"Recovery":1,"Weapon":"Slime Slam","Gold Dropped":30, "XP Gain":15}
+
+        self.all = ["Manic Dog","Goblin Chief","Goblin Minion","Baby Dragon","Giant Slime"]
