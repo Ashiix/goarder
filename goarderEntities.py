@@ -40,5 +40,6 @@ class enemies:
         self.goblinMinion = {"HP Min":5,"HP Max":8,"Attack Min":3,"Attack Max":5,"Crit Chance":7,"Crit Multi":4,"Recovery":3,"Weapon":"Goblin Spear","Gold Dropped":30, "XP Gain":3}
         self.babyDragon = {"HP Min":8,"HP Max":12,"Attack Min":12,"Attack Max":15,"Crit Chance":12,"Crit Multi":4,"Recovery":4,"Weapon":"Fire Breath","Gold Dropped":150, "XP Gain":10}
         self.giantSlime = {"HP Min":50,"HP Max":75,"Attack Min":0,"Attack Max":2,"Crit Chance":5,"Crit Multi":8,"Recovery":1,"Weapon":"Slime Slam","Gold Dropped":30, "XP Gain":15}
+        self.thief = {"HP Min":6,"HP Max":10,"Attack Min":2,"Attack Max":4,"Crit Chance":25,"Crit Multi":8,"Recovery":2,"Weapon":"Thief's Dagger","Gold Dropped":100, "XP Gain":22}
 
-        self.all = ["Manic Dog","Goblin Chief","Goblin Minion","Baby Dragon","Giant Slime"]
+        self.all = ["Manic Dog","Goblin Chief","Goblin Minion","Baby Dragon","Giant Slime","Thief"]

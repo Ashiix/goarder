@@ -35,6 +35,22 @@ class equipped:
 stats = stats()
 equipped = equipped()
 
+def setStats(enemy):
+        if enemy == "Manic Dog":
+            enemyStats = enemies.manicDog
+        elif enemy == "Goblin Chief":
+            enemyStats = enemies.goblinChief
+        elif enemy == "Goblin Minion":
+            enemyStats = enemies.goblinMinion
+        elif enemy == "Baby Dragon":
+            enemyStats = enemies.babyDragon
+        elif enemy == "Giant Slime":
+            enemyStats = enemies.giantSlime
+        elif enemy == "Thief":
+            enemyStats = enemies.thief
+
+        return enemyStats
+
 def combat():
 
     paladinCritChance = 2 + stats.strength
@@ -44,19 +60,10 @@ def combat():
 
     enemyDefeated = False
     userRun = False
-    randEnemy = rng.randint(0,4)
+    randEnemy = rng.randint(0,len(enemies.all)-1)
     enemy = enemies.all[randEnemy]
 
-    if enemy == "Manic Dog":
-        enemyStats = enemies.manicDog
-    elif enemy == "Goblin Chief":
-        enemyStats = enemies.goblinChief
-    elif enemy == "Goblin Minion":
-        enemyStats = enemies.goblinMinion
-    elif enemy == "Baby Dragon":
-         enemyStats = enemies.babyDragon
-    elif enemy == "Giant Slime":
-         enemyStats = enemies.giantSlime
+    enemyStats = setStats(enemy)
 
     enemyHP = rng.randint(enemyStats["HP Min"],enemyStats["HP Max"])
     print("\nYou have encountered a",enemy+"! HP="+str(enemyHP))
@@ -256,20 +263,20 @@ def readSave():
             newGame = False
             stats.name = save.readline().rstrip('\n')
             stats.gender = save.readline().rstrip('\n')
-            stats.goldCount = int(save.readline().rstrip('\n'))
-            stats.XPtotal = int(save.readline().rstrip('\n'))
-            stats.XPpoints = int(save.readline().rstrip('\n'))
-            stats.paladinHP = int(save.readline().rstrip('\n'))
-            stats.paladinHPMax = int(save.readline().rstrip('\n'))
-            stats.strength = int(save.readline().rstrip('\n'))
-            stats.recovery = int(save.readline().rstrip('\n'))
-            stats.agi = int(save.readline().rstrip('\n'))
-            loadHelm = int(save.readline().rstrip('\n'))
-            loadTunic = int(save.readline().rstrip('\n'))
-            loadGauntlets = int(save.readline().rstrip('\n'))
-            loadBoots = int(save.readline().rstrip('\n'))
-            loadWeapon = int(save.readline().rstrip('\n'))
-            loadShield = int(save.readline().rstrip('\n'))
+            stats.goldCount = float(save.readline().rstrip('\n'))
+            stats.XPtotal = float(save.readline().rstrip('\n'))
+            stats.XPpoints = float(save.readline().rstrip('\n'))
+            stats.paladinHP = float(save.readline().rstrip('\n'))
+            stats.paladinHPMax = float(save.readline().rstrip('\n'))
+            stats.strength = float(save.readline().rstrip('\n'))
+            stats.recovery = float(save.readline().rstrip('\n'))
+            stats.agi = float(save.readline().rstrip('\n'))
+            loadHelm = float(save.readline().rstrip('\n'))
+            loadTunic = float(save.readline().rstrip('\n'))
+            loadGauntlets = float(save.readline().rstrip('\n'))
+            loadBoots = float(save.readline().rstrip('\n'))
+            loadWeapon = float(save.readline().rstrip('\n'))
+            loadShield = float(save.readline().rstrip('\n'))
             equipped.helm = items.itemsByID[loadHelm]
             equipped.tunic = items.itemsByID[loadTunic]
             equipped.gauntlets = items.itemsByID[loadGauntlets]
